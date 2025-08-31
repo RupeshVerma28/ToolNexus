@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image Resizer</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head><body>
+<nav class="navbar tool-nav"><div class="container">
+  <a class="tool-back" href="../index.html">&larr; Back</a>
+</div></nav>
+<main class="container my-4">
+  <div class="card p-4 tool-card">
+    <h3 class="mb-1">Image Resizer</h3>
+    <p class="text-muted small">Client-side tool.</p>
+    
+<input type="file" id="imageInput" class="form-control my-3" accept="image/*">
+<div class="row g-2">
+  <div class="col"><input type="number" id="width" class="form-control" placeholder="Width (px)"></div>
+  <div class="col"><input type="number" id="height" class="form-control" placeholder="Height (px)"></div>
+</div>
+<button id="resizeBtn" class="btn btn-primary mt-3">Resize & Download</button>
+<canvas id="canvas" style="display:none;"></canvas>
+
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.getElementById("resizeBtn").addEventListener("click", () => {
+  const file = document.getElementById("imageInput").files[0];
+  const width = parseInt(document.getElementById("width").value);
+  const height = parseInt(document.getElementById("height").value);
+  if (!file || !width || !height) return alert("Select image & enter size.");
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = width; canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/jpeg", 0.9);
+      link.download = "resized-image.jpg"; link.click();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+
+</body></html>

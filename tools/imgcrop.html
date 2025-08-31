@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image Cropper</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head><body>
+<nav class="navbar tool-nav"><div class="container">
+  <a class="tool-back" href="../index.html">&larr; Back</a>
+</div></nav>
+<main class="container my-4">
+  <div class="card p-4 tool-card">
+    <h3 class="mb-1">Image Cropper</h3>
+    <p class="text-muted small">Client-side tool.</p>
+    
+<input type="file" id="imageInput" class="form-control my-3" accept="image/*">
+<div class="row g-2">
+  <div class="col-3"><input id="x" type="number" class="form-control" placeholder="X"></div>
+  <div class="col-3"><input id="y" type="number" class="form-control" placeholder="Y"></div>
+  <div class="col-3"><input id="w" type="number" class="form-control" placeholder="Width"></div>
+  <div class="col-3"><input id="h" type="number" class="form-control" placeholder="Height"></div>
+</div>
+<button id="cropBtn" class="btn btn-primary mt-3">Crop & Download</button>
+<canvas id="canvas" style="display:none;"></canvas>
+
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let imgObj=null;
+document.getElementById('imageInput').addEventListener('change', (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const fr=new FileReader(); fr.onload=()=>{ imgObj=new Image(); imgObj.onload=()=>{
+    document.getElementById('w').value = Math.floor(imgObj.width/2);
+    document.getElementById('h').value = Math.floor(imgObj.height/2);
+    document.getElementById('x').value = Math.floor(imgObj.width/4);
+    document.getElementById('y').value = Math.floor(imgObj.height/4);
+  }; imgObj.src=fr.result; }; fr.readAsDataURL(f);
+});
+document.getElementById('cropBtn').addEventListener('click', ()=>{
+  if(!imgObj) return alert('Select image');
+  const x=+document.getElementById('x').value||0;
+  const y=+document.getElementById('y').value||0;
+  const w=+document.getElementById('w').value||imgObj.width;
+  const h=+document.getElementById('h').value||imgObj.height;
+  const c=document.getElementById('canvas'); c.width=w; c.height=h;
+  const ctx=c.getContext('2d'); ctx.drawImage(imgObj, x,y,w,h, 0,0,w,h);
+  const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='cropped.png'; a.click();
+});
+</script>
+
+</body></html>

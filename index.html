@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Multi Tool (Light)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar bg-white shadow-sm sticky-top">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <i class="bi bi-tools brand-icon"></i><span class="brand-text">Multi Tool</span>
+    </a>
+    <form id="searchForm" class="search-wrap flex-grow-1">
+      <input id="searchInput" class="form-control search-input" type="search" placeholder="Search tools...">
+    </form>
+  </div>
+</nav>
+
+<header class="container my-4">
+  <div class="header-hero text-center">
+    <h1 class="display-6 fw-bold mb-2">All the small productivity tools — in one place</h1>
+    <p class="text-muted">Client-side, privacy-friendly tools. Click a card to open a working tool.</p>
+  </div>
+</header>
+
+<main class="container">
+  <div class="d-flex gap-2 flex-wrap mb-3" id="categoryBar">
+    <button class="btn btn-sm btn-outline-primary active" data-cat="all">All</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="pdf">PDF</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="image">Images</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="text">Text</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="dev">Dev</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="general">General</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="calc">Calculators</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="convert">Unit Converter</button>
+    <button class="btn btn-sm btn-outline-primary" data-cat="health">Health</button>
+  </div>
+
+  <div id="toolsGrid" class="row g-4"></div>
+
+  <div class="text-center mt-4">
+    <button id="seeMore" class="btn btn-outline-primary">See More Tools</button>
+  </div>
+</main>
+
+<footer class="py-4 text-muted text-center small bg-white mt-5 border-top">© Multi Tool — Client-side apps.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/tools-data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

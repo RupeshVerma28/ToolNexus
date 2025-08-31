@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merge PDF</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head><body>
+<nav class="navbar tool-nav"><div class="container">
+  <a class="tool-back" href="../index.html">&larr; Back</a>
+</div></nav>
+<main class="container my-4">
+  <div class="card p-4 tool-card">
+    <h3 class="mb-1">Merge PDF</h3>
+    <p class="text-muted small">Client-side tool.</p>
+    
+<input id="pdfs" type="file" accept="application/pdf" multiple class="form-control my-3">
+<button id="mergeBtn" class="btn btn-primary">Merge & Download</button>
+<div id="mstatus" class="small text-muted mt-2"></div>
+
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>
+const { PDFDocument } = PDFLib;
+document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+  const files = document.getElementById('pdfs').files;
+  if(!files.length) return alert('Select PDFs');
+  const outPdf = await PDFDocument.create();
+  for(const f of files){
+    const bytes = await f.arrayBuffer();
+    const src = await PDFDocument.load(bytes);
+    const pages = await outPdf.copyPages(src, src.getPageIndices());
+    pages.forEach(p=>outPdf.addPage(p));
+  }
+  const data = await outPdf.save();
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data],{type:'application/pdf'})); a.download='merged.pdf'; a.click();
+  document.getElementById('mstatus').textContent = 'Merged.';
+});
+</script>
+
+</body></html>
